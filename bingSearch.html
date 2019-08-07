@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+    <script type="text/javascript" src="adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="ext-all.js"></script>
+    <title>BingSearch</title>
+    <script>
+        Ext.onReady(function () {
+            var container = new Ext.Container({
+                renderTo: Ext.getBody(),
+                layout: 'table',
+                layoutConfig: {
+                    column: 2,
+                },
+                height: 100,
+                style: 'background-color: black',
+                items: [
+                    {
+                        colspan: 1,
+                        width: 150,
+                        layout: 'hbox',
+                        xtype: 'container',
+                        style: 'margin-left: 20px; margin-top: 20px;',
+                        items: [
+                            {
+                                xtype: 'box',
+                                height: 52,
+                                width: 132,
+                                autoEl: {
+                                    tag: 'img',
+                                    src: 'hpc26.png'
+                                }
+                                // style: 'background: transparent url(hpc26.png) no-repeat;'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'tabpanel',
+                        width: 800,
+                        height: 50,
+                        colspan: 1,
+                        plain: true,
+                        border: false,
+                        hideBorders: true,
+                        activeTab: 'internal',
+                        style: 'margin-top: 20px;',
+                        items: [{
+                            id: 'internal',
+                            title: '国内版',
+                            items: [
+                                {
+                                    xtype: 'trigger',
+                                    width: 800,
+                                    height: 30,
+                                    triggerClass: 'x-form-search-trigger',
+                                }
+                            ]
+                        }, {
+                            id: 'international',
+                            title: '国际版',
+                            items: [
+                                {
+                                    xtype: 'trigger',
+                                    width: 800,
+                                    height: 30,
+                                    triggerClass: 'x-form-search-trigger',
+                                }
+                            ]
+                        }],
+                    }
+                ]
+            })
+        })
+    </script>
+</head>
+<body>
+</body>
+</html>
