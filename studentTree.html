@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+    <script type="text/javascript" src="adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="ext-all.js"></script>
+    <title>Student Tree</title>
+    <script>
+        Ext.onReady(function () {
+            const root = new Ext.tree.AsyncTreeNode({text: 'School', expanded: true});
+            const treeLoader = new Ext.tree.TreeLoader({dataUrl: 'school.json'})
+
+
+            const layout = new Ext.Viewport({
+                layout: 'border',
+                items: [
+                    {
+                        id: 'student-tree-id',
+                        region: 'west',
+                        xtype: 'treepanel',
+                        title: 'treeLayout',
+                        width: 300,
+                        autoScroll: true,
+                        animate: true,
+                        useArrows: true,
+                        frame: true,
+                        enableDD: true,
+                        root: root,
+                        loader: treeLoader
+                    },
+                    {
+                        xtype: 'panel',
+                        title: 'formLayout',
+                        region: 'center'
+                    }
+                ]
+            })
+
+            Ext.getCmp('student-tree-id').expandAll();
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

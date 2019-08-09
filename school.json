@@ -1,0 +1,21 @@
+[
+  {"text": "Class1", "children": [
+      {"text": "A1", "checked": false, "leaf": true},
+      {"text": "B1", "checked": false, "leaf": true},
+      {"text": "C1", "checked": false, "leaf": true},
+      {"text": "D1", "checked": false, "leaf": true},
+      {"text": "E1", "checked": false, "leaf": true},
+      {"text": "F1", "checked": false, "leaf": true}
+    ]
+  },
+  {"text": "Class2", "children": [
+      {"text": "A2", "checked": false, "leaf": true},
+      {"text": "B2", "checked": false, "leaf": true}
+    ]
+  },
+  {"text": "Class3", "children": [
+    {"text": "A3", "checked": false, "leaf": true},
+    {"text": "B3", "checked": false, "leaf": true}
+  ]
+  }
+]
