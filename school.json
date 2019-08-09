@@ -1,21 +1,21 @@
 [
   {"text": "Class1", "children": [
-      {"text": "A1", "checked": false, "leaf": true},
-      {"text": "B1", "checked": false, "leaf": true},
-      {"text": "C1", "checked": false, "leaf": true},
-      {"text": "D1", "checked": false, "leaf": true},
-      {"text": "E1", "checked": false, "leaf": true},
-      {"text": "F1", "checked": false, "leaf": true}
-    ]
+      {"text": "A1", "checked": false, "leaf": true, "id": "A1-id"},
+      {"text": "B1", "checked": false, "leaf": true, "id": "B1-id"},
+      {"text": "C1", "checked": false, "leaf": true, "id": "C1-id"},
+      {"text": "D1", "checked": false, "leaf": true, "id": "D1-id"},
+      {"text": "E1", "checked": false, "leaf": true, "id": "E1-id"},
+      {"text": "F1", "checked": false, "leaf": true, "id": "F1-id"}
+    ], "id": "Class1-id"
   },
   {"text": "Class2", "children": [
-      {"text": "A2", "checked": false, "leaf": true},
-      {"text": "B2", "checked": false, "leaf": true}
-    ]
+      {"text": "A2", "checked": false, "leaf": true, "id": "A2-id"},
+      {"text": "B2", "checked": false, "leaf": true, "id": "B2-id"}
+    ],"id": "Class2-id"
   },
   {"text": "Class3", "children": [
-    {"text": "A3", "checked": false, "leaf": true},
-    {"text": "B3", "checked": false, "leaf": true}
-  ]
+    {"text": "A3", "checked": false, "leaf": true, "id": "A3-id"},
+    {"text": "B3", "checked": false, "leaf": true, "id": "B3-id"}
+  ],"id": "Class3-id"
   }
 ]
