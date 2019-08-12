@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="ux/statusbar/css/statusbar.css"/>
+    <script type="text/javascript" src="adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="ext-all.js"></script>
+    <script type="text/javascript" src="ux/statusbar/StatusBar.js"></script>
+    <title>Reply Editor</title>
+    <script>
+        Ext.onReady(function () {
+
+            var loadFn = function(btn, statusBar){
+                btn = Ext.getCmp(btn);
+                statusBar = Ext.getCmp(statusBar);
+
+                btn.disable();
+                statusBar.showBusy();
+
+                (function(){
+                    statusBar.clearStatus({useDefaults:true});
+                    btn.enable();
+                    Ext.Msg.alert('Message', 'Success');
+                }).defer(3000);
+            };
+
+            const win = new Ext.Window({
+                layout:'fit',
+                width:500,
+                height:300,
+                closeAction:'hide',
+                plain: true,
+
+                items: new Ext.FormPanel({
+                    title: 'form',
+                    items: [
+                        {
+                            xtype: 'fieldset',
+                            checkboxToggle: true,
+                            title: 'add table',
+                            autoHeight: true,
+                            defaultType: 'textfield',
+                            collapsible: true,
+                            items: [
+                                {
+                                    id: 'column-id',
+                                    fieldLabel: 'Column',
+                                    name: 'column',
+                                    anchor: '90%'
+                                },
+                                {
+                                    id: 'row-id',
+                                    fieldLabel: 'Row',
+                                    name: 'row',
+                                    anchor: '90%'
+                                }
+                            ]
+                        }
+                    ]
+                }),
+                buttons: [{
+                    text:'Add',
+                    listeners: {
+                        'click': function (btn, eventObject) {
+                            const column = Ext.getCmp('column-id').getValue();
+                            const row = Ext.getCmp('row-id').getValue();
+                            let array = new Array();
+                            for (let i = 0; i < row; i++) {
+                                array[i] = new Array();
+                                for (let j = 0; j < column; j++) {
+                                    array[i].push({name: Math.random().toString(36).substr(2), age: Math.ceil(Math.random()*100)});
+                                }
+                            }
+                            tpl.overwrite(tablePanel.body, array);
+                            win.hide();
+                        }
+                    }
+                },{
+                    text: 'Close',
+                    handler: function(){
+                        win.hide();
+                    }
+                }]
+            });
+
+            const editMenu = new Ext.menu.Menu({
+                items: [
+                    {
+                        text: 'Reset',
+                        listeners: {
+                            'click': function () {
+                                Ext.getCmp('edit-content-id').reset();
+                            }
+                        }
+                    }
+                ]
+            })
+
+            const insertMenu = new Ext.menu.Menu({
+                items: [
+                    {
+                        text: 'Table',
+                        listeners: {
+                            'click': function () {
+                                win.show();
+                            }
+                        }
+                    }
+                ]
+            })
+
+            const contextMenu = new Ext.menu.Menu({
+                items: [
+                    {
+                        id: 'resetNode',
+                        text: 'Reset'
+                    },
+                    {
+                        id: 'tableNode',
+                        text: 'Table'
+                    }
+                ],
+                listeners: {
+                    'itemClick': function (item) {
+                        switch (item.id) {
+                            case 'resetNode':
+                                Ext.getCmp('edit-content-id').reset();
+                                break;
+                            case 'tableNode':
+                                win.show();
+                                break;
+                        }
+                    }
+                }
+            })
+
+            const toolbar = new Ext.Toolbar({
+                items: [
+                    {text: 'Edit', menu: editMenu},
+                    {text: 'Insert', menu: insertMenu}
+                ]
+            })
+
+            const panel = new Ext.Panel({
+                id: 'panel-id',
+                renderTo: 'editor-id',
+                title: 'Reply Editor',
+                width: 400,
+                height: 350,
+                tbar: toolbar,
+                bbar: new Ext.ux.StatusBar({
+                    id: 'statusbar-id',
+                    defaultText: '',
+                    text: '',
+                    iconCls: 'x-status-valid'
+                }),
+                items: [
+                    {
+                        id: 'edit-content-id',
+                        xtype: 'textarea',
+                        emptyText: '请输入回复信息',
+                        height: 200,
+                        width: 400,
+                        enableKeyEvents: true,
+                        listeners: {
+                            'keyup': function (form, e) {
+                                if (Ext.getCmp('edit-content-id').getValue().length > 0) {
+                                    Ext.getCmp('reply-id').setDisabled(false);
+                                } else {
+                                    Ext.getCmp('reply-id').setDisabled(true);
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: 'reply-id',
+                        text: 'Reply',
+                        xtype: 'button',
+                        scale: 'medium',
+                        disabled: true,
+                        style: 'float: right; margin-right: 20px',
+                        listeners: {
+                            'click': function () {
+                                loadFn('reply-id', 'statusbar-id');
+                            }
+                        }
+                    }
+                ]
+            })
+
+            const tablePanel = new Ext.Panel({
+                title: 'table',
+                frame: true,
+                width: 1000,
+                height: 400,
+                renderTo: 'table-id'
+            })
+
+            const tpl = new Ext.XTemplate(
+                '<table>',
+                    '<tpl for="values">',
+                        '<tr>',
+                            '<tpl for="values">',
+                            '<td>I am {name}, I am {age}</td>',
+                            '</tpl>',
+                        '</tr>',
+                    '</tpl>',
+                '</table>',
+            );
+
+            const doc = Ext.getDoc();
+            Ext.get(doc).on('contextmenu', function(e){
+                e.preventDefault();
+                contextMenu.showAt(e.getXY());
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="editor-id"></div>
+<div id="table-id"></div>
+</body>
+</html>

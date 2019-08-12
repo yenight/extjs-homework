@@ -59,8 +59,6 @@
                                         id: Ext.getCmp('name-id').getValue()+'-id'
                                     }))
                                 }
-                            } else {
-                                Ext.Msg.alert('Error', 'Sorry, you select a leaf node');
                             }
                         }
                     }
@@ -94,7 +92,11 @@
                                 break;
                             case 'addNode':
                                 selectNode = currentNode;
-                                win.show();
+                                if (selectNode.leaf === true) {
+                                    Ext.Msg.alert('Error', 'Sorry, you select a leaf node');
+                                } else {
+                                    win.show();
+                                }
                                 break;
                         }
                     }
