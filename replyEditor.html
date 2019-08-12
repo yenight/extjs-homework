@@ -14,8 +14,7 @@
             const pbar2 = new Ext.ProgressBar({
                 text:'Ready',
                 id:'pbar2',
-                cls:'left-align',
-                renderTo:'p2'
+                cls:'left-align'
             });
 
             const win = new Ext.Window({
@@ -75,6 +74,16 @@
                         win.hide();
                     }
                 }]
+            });
+
+            const win2 = new Ext.Window({
+                layout:'fit',
+                width:500,
+                height:100,
+                closeAction:'hide',
+                plain: true,
+
+                items: [pbar2]
             });
 
             const editMenu = new Ext.menu.Menu({
@@ -140,9 +149,8 @@
                 renderTo: 'editor-id',
                 title: 'Reply Editor',
                 width: 400,
-                height: 350,
+                height: 400,
                 tbar: toolbar,
-                bbar: pbar2,
                 items: [
                     {
                         id: 'edit-content-id',
@@ -170,9 +178,14 @@
                         style: 'float: right; margin-right: 20px',
                         listeners: {
                             'click': function () {
-                                Runner.run(pbar2, Ext.getCmp('reply-id'), 3, function(){
+                                win2.show();
+                                Runner.run(pbar2, Ext.get('reply-id'), 3, function(){
                                     pbar2.reset();
                                     pbar2.updateText('Done.');
+                                    const task = new Ext.util.DelayedTask(function () {
+                                        win2.hide();
+                                    })
+                                    task.delay(2000);
                                 });
                             }
                         }
