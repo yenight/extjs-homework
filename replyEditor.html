@@ -11,19 +11,12 @@
     <script>
         Ext.onReady(function () {
 
-            var loadFn = function(btn, statusBar){
-                btn = Ext.getCmp(btn);
-                statusBar = Ext.getCmp(statusBar);
-
-                btn.disable();
-                statusBar.showBusy();
-
-                (function(){
-                    statusBar.clearStatus({useDefaults:true});
-                    btn.enable();
-                    Ext.Msg.alert('Message', 'Success');
-                }).defer(3000);
-            };
+            const pbar2 = new Ext.ProgressBar({
+                text:'Ready',
+                id:'pbar2',
+                cls:'left-align',
+                renderTo:'p2'
+            });
 
             const win = new Ext.Window({
                 layout:'fit',
@@ -149,12 +142,7 @@
                 width: 400,
                 height: 350,
                 tbar: toolbar,
-                bbar: new Ext.ux.StatusBar({
-                    id: 'statusbar-id',
-                    defaultText: '',
-                    text: '',
-                    iconCls: 'x-status-valid'
-                }),
+                bbar: pbar2,
                 items: [
                     {
                         id: 'edit-content-id',
@@ -182,7 +170,10 @@
                         style: 'float: right; margin-right: 20px',
                         listeners: {
                             'click': function () {
-                                loadFn('reply-id', 'statusbar-id');
+                                Runner.run(pbar2, Ext.getCmp('reply-id'), 3, function(){
+                                    pbar2.reset();
+                                    pbar2.updateText('Done.');
+                                });
                             }
                         }
                     }
@@ -215,6 +206,28 @@
                 contextMenu.showAt(e.getXY());
             });
         })
+
+        var Runner = function(){
+            var f = function(v, pbar, btn, count, cb){
+                return function(){
+                    if(v > count){
+                        btn.dom.disabled = false;
+                        cb();
+                    }else{
+                        pbar.updateProgress(v/count, 'Loading item ' + v + ' of '+count+'...');
+                    }
+                };
+            };
+            return {
+                run : function(pbar, btn, count, cb){
+                    btn.dom.disabled = true;
+                    var ms = 5000/count;
+                    for(var i = 1; i < (count+2); i++){
+                        setTimeout(f(i, pbar, btn, count, cb), i*ms);
+                    }
+                }
+            }
+        }();
     </script>
 </head>
 <body>
