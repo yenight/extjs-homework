@@ -190,7 +190,11 @@
                     avatar: 'search.png'
                 });
                 panel.stopEditing();
-                store.insert(selectRow + 1, p);
+                if (selectRow === 0) {
+                    store.insert(selectRow, p);
+                } else {
+                    store.insert(selectRow + 1, p);
+                }
                 panel.startEditing(0, 0);
             })
             Ext.get('delete-btn-id').on('click', function () {
